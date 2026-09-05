@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gewohnheiten</title>
+  <script>
+    (function () {
+      var theme = 'light';
+      try {
+        var raw = localStorage.getItem('habitTracker.v1');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && (parsed.theme === 'dark' || parsed.theme === 'light')) {
+            theme = parsed.theme;
+          }
+        }
+      } catch (e) {
+        theme = 'light';
+      }
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1 class="app-title">Gewohnheiten</h1>
+    <div class="header-actions">
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Dunkelmodus umschalten" aria-pressed="false" title="Dunkelmodus umschalten">
+        <span class="theme-toggle__track">
+          <span class="theme-toggle__thumb"></span>
+        </span>
+      </button>
+      <button id="export-btn" class="icon-btn" type="button" aria-label="Daten exportieren" title="Daten exportieren">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+          <path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+      <button id="import-btn" class="icon-btn" type="button" aria-label="Daten importieren" title="Daten importieren">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+          <path d="M12 21V9m0 0l-4 4m4-4l4 4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+      <input type="file" id="import-file" accept="application/json,.json" hidden />
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="add-bar">
+      <input id="habit-input" type="text" placeholder="Neue Gewohnheit…" aria-label="Neue Gewohnheit" autocomplete="off" />
+      <button id="add-habit" class="btn btn--primary" type="button">Hinzufügen</button>
+    </section>
+
+    <div id="filter-toggle" class="filter-tabs" role="tablist" aria-label="Gewohnheiten filtern">
+      <button class="filter-tab is-active" type="button" role="tab" aria-selected="true">Aktiv</button>
+      <button class="filter-tab" type="button" role="tab" aria-selected="false">Archiviert</button>
+    </div>
+
+    <div id="habit-list" class="habit-list"></div>
+
+    <div id="empty-state" class="empty-state">
+      <div class="empty-state__illustration" aria-hidden="true">
+        <svg viewBox="0 0 64 64" width="64" height="64" fill="none">
+          <path d="M16 34l11 11 21-24" stroke="var(--color-accent)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M8 20l4 4 8-8" stroke="var(--color-muted)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M8 44l4 4 8-8" stroke="var(--color-muted)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+      <h2 class="empty-state__title">Lege deine erste Gewohnheit an</h2>
+      <p class="empty-state__text">Verfolge deine täglichen Routinen und baue Schritt für Schritt bessere Gewohnheiten auf.</p>
+      <button class="btn btn--primary empty-state__cta" type="button">Erste Gewohnheit anlegen</button>
+      <p class="empty-state__privacy">Deine Daten werden ausschließlich lokal in deinem Browser gespeichert und verlassen dein Gerät nicht. Du kannst sie jederzeit löschen, indem du deine Gewohnheiten entfernst oder den Browserspeicher leerst.</p>
+    </div>
+
+    <section class="chart-section">
+      <h2 class="section-title">Letzte acht Wochen</h2>
+      <canvas id="chart" class="chart"></canvas>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>Alle Daten bleiben lokal in deinem Browser gespeichert.</p>
+  </footer>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
