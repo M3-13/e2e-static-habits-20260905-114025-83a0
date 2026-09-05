@@ -117,15 +117,6 @@ function showMessage(text, kind) {
   }
 }
 
-function clearMessage() {
-  const el = document.getElementById(MESSAGE_ID);
-  if (el) {
-    el.hidden = true;
-    el.style.display = 'none';
-    el.textContent = '';
-  }
-}
-
 function exportData() {
   const state = store.getState();
   const json = JSON.stringify(state, null, 2);
